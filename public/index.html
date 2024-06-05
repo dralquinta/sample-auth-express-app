@@ -33,5 +33,26 @@
   <button onclick="signIn()">Sign in with Google</button>
   <br>
   <textarea id="token" rows="10" cols="50"></textarea>
+  <br>
+  <button onclick="testSecureEndpoint()">Test Secure Endpoint</button>
+  <script>
+    function testSecureEndpoint() {
+      const idToken = document.getElementById('token').value;
+      fetch('/secure', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${idToken}`
+        }
+      })
+      .then(response => response.text())
+      .then(data => {
+        console.log(data);
+        alert(data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    }
+  </script>
 </body>
 </html>

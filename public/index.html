@@ -7,15 +7,24 @@
   <script>
     // Your web app's Firebase configuration
     const firebaseConfig = {
-        apiKey: "AIzaSyAhFxnCuYYqY1GQCADVguAvff0EHNyieqc",
+      apiKey: "AIzaSyAhFxnCuYYqY1GQCADVguAvff0EHNyieqc",
       authDomain: "dryruns.firebaseapp.com",
-      projectId: "dryruns",
-      storageBucket: "dryruns.appspot.com"
+      projectId: "dryruns",      
     };
 
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
+  </script>
+</head>
+<body>
+  <h1>Google Sign-In Example</h1>
+  <button onclick="signIn()">Sign in with Google</button>
+  <br>
+  <textarea id="token" rows="10" cols="50" readonly></textarea>
+  <br>
+  <button onclick="testSecureEndpoint()">Test Secure Endpoint</button>
 
+  <script>
     function signIn() {
       var provider = new firebase.auth.GoogleAuthProvider();
       firebase.auth().signInWithPopup(provider).then(function(result) {
@@ -53,13 +62,5 @@
       });
     }
   </script>
-</head>
-<body>
-  <h1>Google Sign-In Example</h1>
-  <button onclick="signIn()">Sign in with Google</button>
-  <br>
-  <textarea id="token" rows="10" cols="50" readonly></textarea>
-  <br>
-  <button onclick="testSecureEndpoint()">Test Secure Endpoint</button>
 </body>
 </html>

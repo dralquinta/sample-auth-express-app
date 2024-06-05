@@ -21,21 +21,14 @@
       firebase.auth().signInWithPopup(provider).then(function(result) {
         result.user.getIdToken().then(function(idToken) {
           document.getElementById('token').value = idToken;
+          alert('Signed in successfully');
         });
       }).catch(function(error) {
         console.log(error);
+        alert('Sign in failed');
       });
     }
-  </script>
-</head>
-<body>
-  <h1>Google Sign-In Example</h1>
-  <button onclick="signIn()">Sign in with Google</button>
-  <br>
-  <textarea id="token" rows="10" cols="50"></textarea>
-  <br>
-  <button onclick="testSecureEndpoint()">Test Secure Endpoint</button>
-  <script>
+
     function testSecureEndpoint() {
       const idToken = document.getElementById('token').value;
       fetch('/secure', {
@@ -51,8 +44,17 @@
       })
       .catch(error => {
         console.error('Error:', error);
+        alert('Unauthorized');
       });
     }
   </script>
+</head>
+<body>
+  <h1>Google Sign-In Example</h1>
+  <button onclick="signIn()">Sign in with Google</button>
+  <br>
+  <textarea id="token" rows="10" cols="50" readonly></textarea>
+  <br>
+  <button onclick="testSecureEndpoint()">Test Secure Endpoint</button>
 </body>
 </html>

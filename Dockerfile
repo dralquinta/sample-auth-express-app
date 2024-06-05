@@ -9,7 +9,8 @@ RUN npm install
 RUN npm audit fix
 
 # Bundle app source
-COPY . .
+COPY src ./src
+COPY public ./public
 
 # Bind to port 8080
 EXPOSE 8080

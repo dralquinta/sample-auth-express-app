@@ -19,10 +19,14 @@
   <textarea id="token" rows="10" cols="50" readonly></textarea>
   <br>
   <button onclick="testSecureEndpoint()">Test Secure Endpoint</button> -->
-
+  <h1>Google Sign-In Example</h1>
+  <br>
   <button class="btn">Sign in with Google</button>
+  <br>
   <textarea id="token" rows="10" cols="50" readonly></textarea>
+  <br>
   <button class="btn">Test Secure Endpoint</button>
+  <br>
 
   <script>
     const btnEl = document.querySelector('.btn')
@@ -44,7 +48,6 @@
       }
   
     function signIn() {
-      initializeApp()
       var provider = new firebase.auth.GoogleAuthProvider();
       firebase.auth().signInWithPopup(provider).then(function(result) {
         result.user.getIdToken().then(function(idToken) {

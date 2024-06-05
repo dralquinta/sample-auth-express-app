@@ -2,89 +2,36 @@
 <html>
 <head>
   <title>Google Sign-In Example</title>
-  <!-- Firebase App (the core Firebase SDK) -->
   <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-  <!-- Firebase Authentication -->
   <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
-</head>
-<body>
-  <h1>Google Sign-In Example</h1>
-  <button id="google-sign-in">Sign in with Google</button>
-  <button id="sign-out" style="display:none;">Sign Out</button>
-  <div id="user-info" style="display:none;">
-    <h2>User Info</h2>
-    <p id="user-name"></p>
-    <p id="user-email"></p>
-    <img id="user-photo" src="" alt="User Photo" />
-  </div>
-
   <script>
     // Your web app's Firebase configuration
     const firebaseConfig = {
-      apiKey: "AIzaSyAhFxnCuYYqY1GQCADVguAvff0EHNyieqc",
+        apiKey: "AIzaSyAhFxnCuYYqY1GQCADVguAvff0EHNyieqc",
       authDomain: "dryruns.firebaseapp.com",
       projectId: "dryruns",
-      storageBucket: "dryruns.appspot.com",
+      storageBucket: "dryruns.appspot.com"
     };
 
     // Initialize Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
+    firebase.initializeApp(firebaseConfig);
 
-    // Google Sign-In provider
-    const googleProvider = new firebase.auth.GoogleAuthProvider();
-
-    // Check if user is authenticated
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        // User is signed in
-        displayUserInfo(user);
-      } else {
-        // No user is signed in
-        hideUserInfo();
-      }
-    });
-
-    // Sign in with Google
-    document.getElementById('google-sign-in').addEventListener('click', () => {
-      auth.signInWithPopup(googleProvider)
-        .then((result) => {
-          // User signed in
-          const user = result.user;
-          displayUserInfo(user);
-        })
-        .catch((error) => {
-          console.error('Error during sign-in:', error);
+    function signIn() {
+      var provider = new firebase.auth.GoogleAuthProvider();
+      firebase.auth().signInWithPopup(provider).then(function(result) {
+        result.user.getIdToken().then(function(idToken) {
+          document.getElementById('token').value = idToken;
         });
-    });
-
-    // Sign out
-    document.getElementById('sign-out').addEventListener('click', () => {
-      auth.signOut().then(() => {
-        // User signed out
-        hideUserInfo();
-      }).catch((error) => {
-        console.error('Error during sign-out:', error);
+      }).catch(function(error) {
+        console.log(error);
       });
-    });
-
-    // Display user info
-    const displayUserInfo = (user) => {
-      document.getElementById('user-name').innerText = `Name: ${user.displayName}`;
-      document.getElementById('user-email').innerText = `Email: ${user.email}`;
-      document.getElementById('user-photo').src = user.photoURL;
-
-      document.getElementById('user-info').style.display = 'block';
-      document.getElementById('sign-out').style.display = 'block';
-      document.getElementById('google-sign-in').style.display = 'none';
-    };
-
-    // Hide user info
-    const hideUserInfo = () => {
-      document.getElementById('user-info').style.display = 'none';
-      document.getElementById('sign-out').style.display = 'none';
-      document.getElementById('google-sign-in').style.display = 'block';
-    };
+    }
   </script>
+</head>
+<body>
+  <h1>Google Sign-In Example</h1>
+  <button onclick="signIn()">Sign in with Google</button>
+  <br>
+  <textarea id="token" rows="10" cols="50"></textarea>
 </body>
 </html>

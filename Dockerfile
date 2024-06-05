@@ -1,19 +1,26 @@
-FROM node:14-alpine
+# Use the official Python image from the Docker Hub
+FROM python:3.9-slim
 
-# Create app directory
+# Set the working directory in the container
 WORKDIR /usr/src/app
 
-# Install app dependencies
-COPY package*.json ./
-RUN npm install
-RUN npm audit fix
+# Copy the requirements file into the container
+COPY requirements.txt ./
 
-# Bundle app source
-COPY src ./src
-COPY public ./public
+# Install the dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Bind to port 8080
+# Copy the service account key file
+COPY credentials.json /usr/src/app/credentials.json
+
+# Copy the rest of the application code into the container
+COPY . .
+
+# Expose the port the app runs on
 EXPOSE 8080
 
-# Start the app
-CMD [ "node", "src/server.js" ]
+# Set the environment variable for the service account key
+ENV GOOGLE_APPLICATION_CREDENTIALS="/usr/src/app/credentials.json"
+
+# Run the application
+CMD ["gunicorn", "--bind", "0.0.0.0:8080", "app:app"]

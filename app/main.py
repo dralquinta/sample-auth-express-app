@@ -1,10 +1,9 @@
 import firebase_admin
 from firebase_admin import credentials, auth
 from flask import Blueprint, request, jsonify, send_from_directory, current_app
-import os
 
 # Initialize Firebase Admin SDK
-cred = credentials.Certificate(os.getenv('GOOGLE_APPLICATION_CREDENTIALS'))
+cred = credentials.Certificate('credentials.json')
 firebase_admin.initialize_app(cred)
 
 bp = Blueprint('main', __name__)

@@ -1,20 +1,17 @@
-# Use an official Node runtime as a parent image
 FROM node:14-alpine
 
-# Set the working directory
+# Create app directory
 WORKDIR /usr/src/app
 
-# Copy the package.json and package-lock.json files
+# Install app dependencies
 COPY package*.json ./
-
-# Install dependencies
 RUN npm install
 
-# Copy the rest of the application code
+# Bundle app source
 COPY . .
 
-# Expose the port the app runs on
+# Bind to port 8080
 EXPOSE 8080
 
-# Run the app
-CMD ["npm", "start"]
+# Start the app
+CMD [ "node", "server.js" ]

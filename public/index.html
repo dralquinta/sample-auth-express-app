@@ -11,65 +11,75 @@
   <script defer src="https://www.gstatic.com/firebasejs/7.13.1/firebase.js"></script>
 </head>
 
-<script>
-  function initializeApp(){
-          // Your web app's Firebase configuration
-      const firebaseConfig = {
-      apiKey: "AIzaSyAhFxnCuYYqY1GQCADVguAvff0EHNyieqc",
-      authDomain: "dryruns.firebaseapp.com",
-      projectId: "dryruns",
-    };
-
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    console.log(firebase)
-    }
-
-  function signIn() {
-    var provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider).then(function(result) {
-      result.user.getIdToken().then(function(idToken) {
-        document.getElementById('token').value = idToken;
-        alert('Signed in successfully');
-      });
-    }).catch(function(error) {
-      console.error(error);
-      alert('Sign in failed');
-    });
-  }
-
-  function testSecureEndpoint() {
-    const idToken = document.getElementById('token').value;
-    fetch('/secure', {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${idToken}`
-      }
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Unauthorized');
-      }
-      return response.json();
-    })
-    .then(data => {
-      alert(data.message);
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      alert('Unauthorized');
-    });
-  }
-</script>
 
 <body onload="initializeApp()">
-  <h1>Google Sign-In Example</h1>
+  <!-- <h1>Google Sign-In Example</h1>
   <button onclick="signIn()">Sign in with Google</button>
   <br>
   <textarea id="token" rows="10" cols="50" readonly></textarea>
   <br>
-  <button onclick="testSecureEndpoint()">Test Secure Endpoint</button>
+  <button onclick="testSecureEndpoint()">Test Secure Endpoint</button> -->
 
+  <button class="btn">Sign in with Google</button>
+  <textarea id="token" rows="10" cols="50" readonly></textarea>
+  <button class="btn">Test Secure Endpoint</button>
+
+  <script>
+    const btnEl = document.querySelector('.btn')
+    const btnEl2 = document.querySelector('.btn')
+    btnEl.addEventListener('click', signIn)
+    btnEl2.addEventListener('click', testSecureEndpoint)
+
+    function initializeApp(){
+            // Your web app's Firebase configuration
+        const firebaseConfig = {
+        apiKey: "AIzaSyAhFxnCuYYqY1GQCADVguAvff0EHNyieqc",
+        authDomain: "dryruns.firebaseapp.com",
+        projectId: "dryruns",
+      };
+  
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      console.log(firebase)
+      }
+  
+    function signIn() {
+      initializeApp()
+      var provider = new firebase.auth.GoogleAuthProvider();
+      firebase.auth().signInWithPopup(provider).then(function(result) {
+        result.user.getIdToken().then(function(idToken) {
+          document.getElementById('token').value = idToken;
+          alert('Signed in successfully');
+        });
+      }).catch(function(error) {
+        console.error(error);
+        alert('Sign in failed');
+      });
+    }
+  
+    function testSecureEndpoint() {
+      const idToken = document.getElementById('token').value;
+      fetch('/secure', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${idToken}`
+        }
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Unauthorized');
+        }
+        return response.json();
+      })
+      .then(data => {
+        alert(data.message);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Unauthorized');
+      });
+    }
+  </script>
  
 </body>
 </html>

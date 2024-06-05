@@ -6,6 +6,15 @@
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
   <!-- Firebase Authentication -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+</head>
+<body>
+  <h1>Google Sign-In Example</h1>
+  <button onclick="signIn()">Sign in with Google</button>
+  <br>
+  <textarea id="token" rows="10" cols="50" readonly></textarea>
+  <br>
+  <button onclick="testSecureEndpoint()">Test Secure Endpoint</button>
+
   <script>
     // Your web app's Firebase configuration
     const firebaseConfig = {
@@ -53,13 +62,5 @@
       });
     }
   </script>
-</head>
-<body>
-  <h1>Google Sign-In Example</h1>
-  <button onclick="signIn()">Sign in with Google</button>
-  <br>
-  <textarea id="token" rows="10" cols="50" readonly></textarea>
-  <br>
-  <button onclick="testSecureEndpoint()">Test Secure Endpoint</button>
 </body>
 </html>

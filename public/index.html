@@ -2,64 +2,64 @@
 <html>
 <head>
   <title>Google Sign-In Example</title>
-
+  <!-- Firebase App (the core Firebase SDK) -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <!-- Firebase Authentication -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
-</head>
-<body>
-  <h1>Google Sign-In Example</h1>
-  <button onclick="signIn()">Sign in with Google</button><br>
-  <textarea id="token" rows="10" cols="50" readonly></textarea><br>
-  <button onclick="testSecureEndpoint()">Test Secure Endpoint</button>
-  
   <script>
-    function signIn() {
-      const firebaseConfig = {
-        apiKey: "AIzaSyAhFxnCuYYqY1GQCADVguAvff0EHNyieqc",
-        authDomain: "dryruns.firebaseapp.com",
-        projectId: "dryruns",
-        storageBucket: "dryruns.appspot.com",
-      };
-      
-      firebase.initializeApp(firebaseConfig); // Initialize Firebase
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAhFxnCuYYqY1GQCADVguAvff0EHNyieqc",
+      authDomain: "dryruns.firebaseapp.com",
+      projectId: "dryruns",
+    };
 
-      const provider = new firebase.auth.GoogleAuthProvider();
-      firebase.auth().signInWithPopup(provider)
-        .then((result) => {
-          return result.user.getIdToken();
-        })
-        .then((idToken) => {
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    function signIn() {
+      var provider = new firebase.auth.GoogleAuthProvider();
+      firebase.auth().signInWithPopup(provider).then(function(result) {
+        result.user.getIdToken().then(function(idToken) {
           document.getElementById('token').value = idToken;
           alert('Signed in successfully');
-        })
-        .catch((error) => {
-          console.error(error);
-          alert('Sign in failed');
         });
+      }).catch(function(error) {
+        console.error(error);
+        alert('Sign in failed');
+      });
     }
 
-    async function testSecureEndpoint() {
+    function testSecureEndpoint() {
       const idToken = document.getElementById('token').value;
-      try {
-        const response = await fetch('/secure', {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${idToken}`,
-          },
-        });
-
+      fetch('/secure', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${idToken}`
+        }
+      })
+      .then(response => {
         if (!response.ok) {
           throw new Error('Unauthorized');
         }
-
-        const data = await response.json();
-        console.log(data.message);
+        return response.json();
+      })
+      .then(data => {
         alert(data.message);
-      } catch (error) {
+      })
+      .catch(error => {
         console.error('Error:', error);
         alert('Unauthorized');
-      }
+      });
     }
   </script>
+</head>
+<body>
+  <h1>Google Sign-In Example</h1>
+  <button onclick="signIn()">Sign in with Google</button>
+  <br>
+  <textarea id="token" rows="10" cols="50" readonly></textarea>
+  <br>
+  <button onclick="testSecureEndpoint()">Test Secure Endpoint</button>
 </body>
 </html>

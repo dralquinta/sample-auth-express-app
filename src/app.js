@@ -31,11 +31,7 @@ async function authenticateToken(req, res, next) {
 }
 
 app.get('/secure', authenticateToken, (req, res) => {
-  res.json({ message: `Hello ${req.user.name}` });
-});
-
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/index.html'));
+  res.json({ message: `Hello ${req.user.name || 'user'}` });
 });
 
 app.listen(port, () => {

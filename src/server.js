@@ -6,7 +6,7 @@ const port = process.env.PORT || 8080;
 
 // Initialize the Firebase Admin SDK
 admin.initializeApp({
-  credential: admin.credential.applicationDefault()
+  credential: admin.credential.applicationDefault(),
 });
 
 // Serve static files from the 'public' directory

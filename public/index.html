@@ -2,7 +2,9 @@
 <html>
 <head>
   <title>Google Sign-In Example</title>
+  <!-- Firebase App (the core Firebase SDK) -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <!-- Firebase Authentication -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
   <script>
     // Your web app's Firebase configuration
@@ -10,10 +12,15 @@
       apiKey: "AIzaSyAhFxnCuYYqY1GQCADVguAvff0EHNyieqc",
       authDomain: "dryruns.firebaseapp.com",
       projectId: "dryruns",
+      storageBucket: "dryruns.appspot.com",
     };
 
     // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    } else {
+      firebase.app(); // if already initialized, use that one
+    }
 
     function signIn() {
       var provider = new firebase.auth.GoogleAuthProvider();

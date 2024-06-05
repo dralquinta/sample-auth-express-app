@@ -9,7 +9,7 @@
   <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
   <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
 </head>
-<body>
+<body onload="initializeApp()">
   <h1>Google Sign-In Example</h1>
   <button onclick="signIn()">Sign in with Google</button>
   <br>
@@ -19,7 +19,9 @@
 
   <script>
     // Your web app's Firebase configuration
-    const firebaseConfig = {
+
+    function initializeApp(){
+      const firebaseConfig = {
       apiKey: "AIzaSyAhFxnCuYYqY1GQCADVguAvff0EHNyieqc",
       authDomain: "dryruns.firebaseapp.com",
       projectId: "dryruns",
@@ -27,6 +29,8 @@
 
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
+    console.log(firebase)
+    }
 
     function signIn() {
       var provider = new firebase.auth.GoogleAuthProvider();

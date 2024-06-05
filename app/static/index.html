@@ -11,7 +11,7 @@
     const firebaseConfig = {
       apiKey: "AIzaSyAhFxnCuYYqY1GQCADVguAvff0EHNyieqc",
       authDomain: "dryruns.firebaseapp.com",
-      projectId: "dryruns",  
+      projectId: "dryruns",      
     };
 
     // Initialize Firebase
@@ -42,11 +42,11 @@
         if (!response.ok) {
           throw new Error('Unauthorized');
         }
-        return response.text();
+        return response.json();
       })
       .then(data => {
-        console.log(data);
-        alert(data);
+        console.log(data.message);
+        alert(data.message);
       })
       .catch(error => {
         console.error('Error:', error);
